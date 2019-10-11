@@ -1,7 +1,7 @@
 import React from 'react';
 import Piece from '../../components/Piece';
 
-export const loadImage = url => {
+const loadImage = url => {
   return new Promise((resolve, reject) => {
     const image = document.createElement('img');
     image.crossOrigin = 'anonymous';
@@ -10,7 +10,7 @@ export const loadImage = url => {
   });
 };
 
-export const cutImage = (
+const cutImage = (
   image,
   imgWidth,
   imgHeight,
@@ -45,10 +45,16 @@ export const cutImage = (
   return pieces;
 };
 
-export const transformPieces = pieces =>
+const transformPieces = pieces =>
   pieces.map((piece, index) => {
     const { width, height, url } = piece;
     return (
       <Piece key={index} id={index} width={width} height={height} url={url} />
     );
   });
+
+export const getPieces = async (url, width, height, rows, columns) => {
+  const img = await loadImage(url);
+  const pieces = cutImage(img, width, height, rows, columns);
+  return transformPieces(pieces);
+};

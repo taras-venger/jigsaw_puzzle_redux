@@ -1,31 +1,28 @@
-import axios from 'axios';
 import * as actionTypes from './actionTypes';
-import { loadImage, cutImage, transformPieces } from '../utility/getPieces';
+import { getPieces } from '../utility/getPieces';
+import api from '../../api';
 
-export const fetchImageStart = () => ({
+const fetchImageStart = () => ({
   type: actionTypes.FETCH_IMAGE_START
 });
 
-export const fetchImage = () => dispatch => {
+const fetchImageSuccess = imageURL => ({
+  type: actionTypes.FETCH_IMAGE_SUCCESS,
+  imageURL
+});
+
+export const fetchImage = () => async dispatch => {
   dispatch(fetchImageStart());
-  axios.get(`https://source.unsplash.com/random/880x620`).then(image =>
-    dispatch({
-      type: actionTypes.FETCH_IMAGE_SUCCESS,
-      imageURL: image.request.responseURL
-    })
-  );
+  const imageURL = await api.getRandomImage();
+  dispatch(fetchImageSuccess(imageURL));
 };
 
-export const startGame = (url, width, height, rows, columns) => dispatch => {
-  loadImage(url)
-    .then(img => cutImage(img, width, height, rows, columns))
-    .then(pieces => transformPieces(pieces))
-    .then(pieces =>
-      dispatch({
-        type: actionTypes.START_GAME,
-        pieces
-      })
-    );
+export const startGame = (url, width, height, rows, cols) => async dispatch => {
+  const pieces = await getPieces(url, width, height, rows, cols);
+  dispatch({
+    type: actionTypes.START_GAME,
+    pieces
+  });
 };
 
 export const showSettings = value =>

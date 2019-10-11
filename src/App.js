@@ -173,17 +173,14 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  onFetchImage: () => dispatch(action.fetchImage()),
-  onShowSettings: value => dispatch(action.showSettings(value)),
-  onShowImage: value => dispatch(action.showImage(value)),
-  onSettingsChange: (dimension, value) =>
-    dispatch(action.setRowsAndColumns(dimension, value)),
-  onStartGame: (url, width, height, rows, columns) =>
-    dispatch(action.startGame(url, width, height, rows, columns)),
-  onGameOverCheck: (pieces, matches) =>
-    dispatch(action.checkGameOver(pieces, matches))
-});
+const mapDispatchToProps = {
+  onFetchImage: action.fetchImage,
+  onShowSettings: action.showSettings,
+  onShowImage: action.showImage,
+  onSettingsChange: action.setRowsAndColumns,
+  onStartGame: action.startGame,
+  onGameOverCheck: action.checkGameOver
+};
 
 export default connect(
   mapStateToProps,

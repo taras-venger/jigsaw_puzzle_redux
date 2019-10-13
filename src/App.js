@@ -4,16 +4,10 @@ import { connect } from 'react-redux';
 import Board from './components/Board';
 import Image from './components/Image';
 import Frame from './components/Frame';
-import Navbar from './components/Navbar';
+import Navbar from './components/containers/Navbar';
 import Backdrop from './components/Backdrop';
-import SlidersContainer from './components/SlidersContainer';
-import Slider from './components/Slider';
+import Settings from './components/containers/Settings';
 import Spinner from './components/Spinner';
-import Icon from './components/Icon';
-import RefreshIcon from './icons/refresh.png';
-import PlayIcon from './icons/play.png';
-import SettingsIcon from './icons/settings.png';
-import ViewIcon from './icons/view.png';
 import * as action from './store/actions/actionCreators';
 
 class App extends Component {
@@ -46,54 +40,23 @@ class App extends Component {
       numberOfColumns,
       showSettings,
       showImage,
-      gameOver,
-
       onFetchImage,
       onShowSettings,
+      onStartGame,
       onShowImage,
       onSettingsChange
     } = this.props;
-
-    const onStartGame = () =>
-      this.props.onStartGame.call(
-        this,
-        imageURL,
-        imageWidth,
-        imageHeight,
-        numberOfRows,
-        numberOfColumns
-      );
 
     return (
       <div className='App'>
         <div className='container'>
           <Board>
-            <Navbar>
-              <Icon
-                enabled={!gameStarted}
-                src={RefreshIcon}
-                title='New image'
-                click={!gameStarted ? onFetchImage : undefined}
-              />
-              <Icon
-                enabled={!gameStarted}
-                src={SettingsIcon}
-                title='Settings'
-                click={!gameStarted ? () => onShowSettings(true) : undefined}
-              />
-              <Icon
-                enabled={!gameStarted}
-                src={PlayIcon}
-                title='Start'
-                click={!gameStarted ? onStartGame : undefined}
-              />
-              <Icon
-                enabled={!gameOver}
-                src={ViewIcon}
-                title='View'
-                click={!gameOver ? () => onShowImage(true) : undefined}
-              />
-            </Navbar>
+            <Navbar
+              onFetchImage={onFetchImage}
+              onStartGame={onStartGame}
+              onShowSettings={onShowSettings}
+              onShowImage={onShowImage}
+            />
             <Image
               url={imageURL}
               imageWidth={imageWidth}
@@ -123,21 +86,12 @@ class App extends Component {
             </Backdrop>
           )}
           {showSettings && (
-            <SlidersContainer>
-              <Slider
-                title='Rows'
-                getValue={e => onSettingsChange('rows', e.target.value)}
-                defaultValue={numberOfRows}
-              />
-              <Slider
-                title='Columns'
-                getValue={e => onSettingsChange('columns', e.target.value)}
-                defaultValue={numberOfColumns}
-              />
-              <button className='btn' onClick={() => onShowSettings(false)}>
-                OK
-              </button>
-            </SlidersContainer>
+            <Settings
+              onSettingsChange={onSettingsChange}
+              onShowSettings={onShowSettings}
+              rows={numberOfRows}
+              columns={numberOfColumns}
+            />
           )}
         </div>
       </div>

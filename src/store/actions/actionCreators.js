@@ -11,10 +11,18 @@ const fetchImageSuccess = imageURL => ({
   imageURL
 });
 
+const fetchImageFail = () => ({
+  type: actionTypes.FETCH_IMAGE_FAIL
+});
+
 export const fetchImage = () => async dispatch => {
   dispatch(fetchImageStart());
-  const imageURL = await api.getRandomImage();
-  dispatch(fetchImageSuccess(imageURL));
+  try {
+    const imageURL = await api.getRandomImage();
+    dispatch(fetchImageSuccess(imageURL));
+  } catch {
+    dispatch(fetchImageFail());
+  }
 };
 
 export const startGame = (url, width, height, rows, cols) => async dispatch => {

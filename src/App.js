@@ -21,7 +21,8 @@ class App extends Component {
       numberOfRows,
       numberOfColumns,
       counter,
-      gameOver
+      gameOver,
+      error
     } = this.props;
 
     onGameOverCheck(numberOfRows * numberOfColumns, counter);
@@ -108,13 +109,14 @@ const mapStateToProps = state => {
   } = state.settings;
   const { showImage, showSettings } = state.diaplayElements;
   const { pieces, gameStarted } = state.startGame;
-  const { imageURL, isFetching } = state.imageURL;
+  const { imageURL, isFetching, error } = state.imageURL;
   const { gameOver } = state.gameOver;
   const { counter } = state.counter;
   return {
     imageURL,
     isFetching,
     pieces,
+    error,
     gameStarted,
     imageWidth,
     imageHeight,

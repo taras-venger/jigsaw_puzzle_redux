@@ -14,6 +14,11 @@ const fetchImageReducer = (state = initialState, action) => {
         imageURL: action.imageURL,
         isFetching: false
       };
+    case actionTypes.FETCH_IMAGE_FAIL:
+      return {
+        ...state,
+        error: true
+      };
     default:
       return state;
   }

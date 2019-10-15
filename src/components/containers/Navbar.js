@@ -5,6 +5,7 @@ import PlayIcon from '../../icons/play.png';
 import SettingsIcon from '../../icons/settings.png';
 import ViewIcon from '../../icons/view.png';
 import PropTypes from 'prop-types';
+import { getPieces } from '../../store/utility/getPieces';
 
 const Navbar = props => {
   const {
@@ -20,6 +21,17 @@ const Navbar = props => {
     onStartGame,
     onShowImage
   } = props;
+
+  const handleGameStart = async () => {
+    const pieces = await getPieces(
+      imageURL,
+      imageWidth,
+      imageHeight,
+      numberOfRows,
+      numberOfColumns
+    );
+    onStartGame(pieces);
+  };
 
   return (
     <div className='navbar'>
@@ -39,18 +51,7 @@ const Navbar = props => {
         enabled={!gameStarted}
         src={PlayIcon}
         title='Start'
-        click={
-          !gameStarted
-            ? () =>
-                onStartGame(
-                  imageURL,
-                  imageWidth,
-                  imageHeight,
-                  numberOfRows,
-                  numberOfColumns
-                )
-            : undefined
-        }
+        click={!gameStarted ? handleGameStart : undefined}
       />
       <Icon
         enabled={!gameOver}

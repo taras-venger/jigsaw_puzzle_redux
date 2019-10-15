@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes';
-import { getPieces } from '../utility/getPieces';
 import api from '../../api';
 
 const fetchImageStart = () => ({
@@ -25,13 +24,10 @@ export const fetchImage = () => async dispatch => {
   }
 };
 
-export const startGame = (url, width, height, rows, cols) => async dispatch => {
-  const pieces = await getPieces(url, width, height, rows, cols);
-  dispatch({
-    type: actionTypes.START_GAME,
-    pieces
-  });
-};
+export const startGame = pieces => ({
+  type: actionTypes.START_GAME,
+  pieces
+});
 
 export const showSettings = value =>
   value

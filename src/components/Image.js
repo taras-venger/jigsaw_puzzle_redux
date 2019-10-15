@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Image = props => {
-  const { imageWidth, imageHeight } = props;
+  const { url, imageWidth, imageHeight, hideImage } = props;
 
   const style = {
     position: 'absolute',
@@ -16,7 +16,7 @@ const Image = props => {
 
   return (
     <div className='image' style={style}>
-      <img src={props.url} alt='' hidden={props.hideImage} />
+      <img src={url} alt='' hidden={hideImage} />
     </div>
   );
 };

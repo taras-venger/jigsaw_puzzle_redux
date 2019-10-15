@@ -10,6 +10,7 @@ import Settings from './components/containers/Settings';
 import Spinner from './components/Spinner';
 import * as action from './store/actions/actionCreators';
 import * as selector from './store/selectors';
+import { checkImgLoadError } from './store/utility/otherUtils';
 
 class App extends Component {
   componentDidMount() {
@@ -26,6 +27,7 @@ class App extends Component {
       error
     } = this.props;
 
+    checkImgLoadError(error);
     onGameOverCheck(numberOfRows * numberOfColumns, counter);
     setTimeout(() => gameOver && alert('Well done!'), 0);
   }

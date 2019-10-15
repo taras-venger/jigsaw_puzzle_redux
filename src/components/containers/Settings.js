@@ -3,19 +3,20 @@ import Slider from '../Slider';
 import PropTypes from 'prop-types';
 
 const Settings = props => {
+  const { rows, columns, onShowSettings, onSettingsChange } = props;
   return (
     <div className='sliders_container'>
       <Slider
         title='Rows'
-        getValue={e => props.onSettingsChange('rows', e.target.value)}
-        defaultValue={props.rows}
+        getValue={e => onSettingsChange('rows', e.target.value)}
+        defaultValue={rows}
       />
       <Slider
         title='Columns'
-        getValue={e => props.onSettingsChange('columns', e.target.value)}
-        defaultValue={props.columns}
+        getValue={e => onSettingsChange('columns', e.target.value)}
+        defaultValue={columns}
       />
-      <button className='btn' onClick={() => props.onShowSettings(false)}>
+      <button className='btn' onClick={() => onShowSettings(false)}>
         OK
       </button>
     </div>

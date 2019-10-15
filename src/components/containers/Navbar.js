@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import Icon from '../Icon';
 import RefreshIcon from '../../icons/refresh.png';
 import PlayIcon from '../../icons/play.png';
@@ -9,14 +8,18 @@ import PropTypes from 'prop-types';
 
 const Navbar = props => {
   const {
+    imageURL,
     imageWidth,
     imageHeight,
     numberOfRows,
-    numberOfColumns
-  } = useSelector(state => state.settings);
-  const { imageURL } = useSelector(state => state.imageURL);
-  const { gameStarted } = useSelector(state => state.startGame);
-  const { gameOver } = useSelector(state => state.gameOver);
+    numberOfColumns,
+    gameStarted,
+    gameOver,
+    onFetchImage,
+    onShowSettings,
+    onStartGame,
+    onShowImage
+  } = props;
 
   return (
     <div className='navbar'>
@@ -24,13 +27,13 @@ const Navbar = props => {
         enabled={!gameStarted}
         src={RefreshIcon}
         title='New image'
-        click={!gameStarted ? props.onFetchImage : undefined}
+        click={!gameStarted ? onFetchImage : undefined}
       />
       <Icon
         enabled={!gameStarted}
         src={SettingsIcon}
         title='Settings'
-        click={!gameStarted ? () => props.onShowSettings(true) : undefined}
+        click={!gameStarted ? () => onShowSettings(true) : undefined}
       />
       <Icon
         enabled={!gameStarted}
@@ -39,7 +42,7 @@ const Navbar = props => {
         click={
           !gameStarted
             ? () =>
-                props.onStartGame(
+                onStartGame(
                   imageURL,
                   imageWidth,
                   imageHeight,
@@ -53,13 +56,20 @@ const Navbar = props => {
         enabled={!gameOver}
         src={ViewIcon}
         title='View'
-        click={!gameOver ? () => props.onShowImage(true) : undefined}
+        click={!gameOver ? () => onShowImage(true) : undefined}
       />
     </div>
   );
 };
 
 Navbar.propTypes = {
+  imageURL: PropTypes.string,
+  imageWidth: PropTypes.number,
+  imageHeight: PropTypes.number,
+  numberOfRows: PropTypes.number,
+  numberOfColumns: PropTypes.number,
+  gameStarted: PropTypes.bool,
+  gameOver: PropTypes.bool,
   onFetchImage: PropTypes.func,
   onShowSettings: PropTypes.func,
   onStartGame: PropTypes.func,

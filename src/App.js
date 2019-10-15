@@ -9,6 +9,7 @@ import Backdrop from './components/Backdrop';
 import Settings from './components/containers/Settings';
 import Spinner from './components/Spinner';
 import * as action from './store/actions/actionCreators';
+import * as selector from './store/selectors';
 
 class App extends Component {
   componentDidMount() {
@@ -35,6 +36,7 @@ class App extends Component {
       isFetching,
       pieces,
       gameStarted,
+      gameOver,
       imageWidth,
       imageHeight,
       numberOfRows,
@@ -53,6 +55,13 @@ class App extends Component {
         <div className='container'>
           <Board>
             <Navbar
+              imageURL={imageURL}
+              gameStarted={gameStarted}
+              gameOver={gameOver}
+              imageWidth={imageWidth}
+              imageHeight={imageHeight}
+              numberOfRows={numberOfRows}
+              numberOfColumns={numberOfColumns}
               onFetchImage={onFetchImage}
               onStartGame={onStartGame}
               onShowSettings={onShowSettings}
@@ -100,34 +109,21 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const {
-    imageWidth,
-    imageHeight,
-    numberOfRows,
-    numberOfColumns
-  } = state.settings;
-  const { showImage, showSettings } = state.diaplayElements;
-  const { pieces, gameStarted } = state.startGame;
-  const { imageURL, isFetching, error } = state.imageURL;
-  const { gameOver } = state.gameOver;
-  const { counter } = state.counter;
-  return {
-    imageURL,
-    isFetching,
-    pieces,
-    error,
-    gameStarted,
-    imageWidth,
-    imageHeight,
-    numberOfRows,
-    numberOfColumns,
-    showSettings,
-    showImage,
-    counter,
-    gameOver
-  };
-};
+const mapStateToProps = state => ({
+  imageURL: selector.imageURL(state),
+  isFetching: selector.isFetching(state),
+  pieces: selector.pieces(state),
+  error: selector.error(state),
+  gameStarted: selector.gameStarted(state),
+  imageWidth: selector.width(state),
+  imageHeight: selector.height(state),
+  numberOfRows: selector.rows(state),
+  numberOfColumns: selector.columns(state),
+  showSettings: selector.showSettings(state),
+  showImage: selector.showImage(state),
+  counter: selector.counter(state),
+  gameOver: selector.gameOver(state)
+});
 
 const mapDispatchToProps = {
   onFetchImage: action.fetchImage,
